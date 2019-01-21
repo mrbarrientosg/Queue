@@ -22,17 +22,25 @@
  SOFTWARE.
  */
 
-#ifndef Queue_h
-#define Queue_h
+#ifndef queue_h
+#define queue_h
 
-typedef struct Queue Queue;
+typedef struct queue queue;
+
+/**
+ @typedef
+ Prototipo de funcion para eliminar de memoria el objeto que se guarda dentro de la cola.
+ 
+ @param object Puntero al objecto guardado.
+ */
+typedef void (*queue_release_object_callback)(void *object);
 
 /**
  Crea un nuevo puntero de tipo Queue.
 
  @return Puntero a la nueva Queue.
  */
-Queue * createQueue(void);
+extern queue *queue_init (queue_release_object_callback release);
 
 /**
  Inserta un elemento en la Queue.
@@ -42,7 +50,7 @@ Queue * createQueue(void);
  @param queue Puntero a la Queue.
  @param data Puntero al elemento que quiere ser insertado.
  */
-void enqueue(Queue * queue, const void * data);
+extern void queue_push (queue *queue, const void *data);
 
 /**
  Elimina un elemento de la Queue, sin liberar la memoria del puntero guardado.
@@ -52,7 +60,7 @@ void enqueue(Queue * queue, const void * data);
  @param queue Puntero a la Queue.
  @return Puntero al elemento eliminado de la Queue.
  */
-void * dequeue(Queue * queue);
+extern void *queue_pop (queue *queue);
 
 /**
  Retorna, pero no elimina, la cabeza de la cola, o devuelve nulo si esta cola está vacía.
@@ -62,7 +70,7 @@ void * dequeue(Queue * queue);
  @param queue Puntero a la Queue.
  @return Puntero al elemento obtenido de la cabeza de la cola.
  */
-void * front(Queue * queue);
+extern void *queue_front (queue *queue);
 
 /**
  Retorna la cantidad de elementos en la Queue.
@@ -72,7 +80,7 @@ void * front(Queue * queue);
  @param queue Puntero a la Queue.
  @return La cantidad de elementos en la Queue.
  */
-long queueCount(Queue * queue);
+extern long queue_size (queue *queue);
 
 /**
  Prueba si la Queue está vacía.
@@ -82,7 +90,7 @@ long queueCount(Queue * queue);
  @param queue Puntero a la Queue.
  @return 1 (true) si y solo si la Queue no contiene elementos; 0 (false) lo contrario.
  */
-int emptyQueue(Queue * queue);
+extern int queue_empty (queue *queue);
 
 /**
  Elimina todo los elementos de la Queue, pero no los libera de la memoria.
@@ -91,6 +99,6 @@ int emptyQueue(Queue * queue);
  
  @param queue Puntero a la Queue.
  */
-void removeAllQueue(Queue * queue);
+extern void queue_release (queue **queue);
 
-#endif /* Queue_h */
+#endif /* queue_h */

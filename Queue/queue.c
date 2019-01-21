@@ -22,26 +22,28 @@
  SOFTWARE.
  */
 
-#include "Queue.h"
+#include "queue.h"
 #include <stdlib.h>
 #include <assert.h>
 
-typedef struct Node Node;
+typedef struct node node;
 
-struct Node {
-    const void * data;
-    Node * next;
+struct node {
+    const void *data;
+    node *next;
 };
 
-struct Queue {
-    Node * tail;
+struct queue {
+    node *tail;
     long count;
+    queue_release_object_callback release;
 };
 
-static Node * createNode(const void * data) {
-    Node * new = (Node *)malloc(sizeof(Node));
+static node *
+node_init (const void *data) {
+    node *new = (node *) malloc (sizeof (node));
    
-    assert(new != NULL);
+    assert (new != NULL);
     
     new->data = data;
     new->next = NULL;
@@ -49,21 +51,24 @@ static Node * createNode(const void * data) {
     return new;
 }
 
-Queue * createQueue() {
-    Queue * new = (Queue *)malloc(sizeof(Queue));
+queue *
+queue_init (queue_release_object_callback release) {
+    queue *new = (queue *) malloc (sizeof (queue));
     
-    assert(new != NULL);
+    assert (new != NULL);
     
     new->tail = NULL;
     new->count = 0;
+    new->release = release;
     
     return new;
 }
 
-void enqueue(Queue * queue, const void * data) {
-    assert(queue != NULL);
+void
+queue_push (queue *queue, const void *data) {
+    assert (queue != NULL);
     
-    Node * new = createNode(data);
+    node *new = node_init (data);
     
     if (queue->tail == NULL) {
         new->next = new;
@@ -76,14 +81,21 @@ void enqueue(Queue * queue, const void * data) {
     queue->count += 1;
 }
 
-void * dequeue(Queue * queue) {
-    assert(queue != NULL);
+void *
+queue_pop (queue *queue) {
+    assert (queue != NULL);
     
-    if (queue->tail == NULL) return NULL;
+    if (queue->tail == NULL)
+        return NULL;
     
-    Node * aux = queue->tail->next;
+    node *aux = queue->tail->next;
     
-    void * data = (void *)aux->data;
+    void *data = (void *) aux->data;
+    
+    if (queue->release != NULL) {
+        queue->release (data);
+        data = NULL;
+    }
     
     if (aux == queue->tail) {
         queue->tail = NULL;
@@ -91,38 +103,49 @@ void * dequeue(Queue * queue) {
         queue->tail->next = aux->next;
     }
     
-    free(aux);
+    free (aux);
     
     queue->count -= 1;
     
     return data;
 }
 
-void * front(Queue * queue) {
-    assert(queue != NULL);
+void *
+queue_front (queue *queue) {
+    assert (queue != NULL);
     
-    if (queue->tail == NULL || queue->tail->next == NULL) return NULL;
+    if (queue->tail == NULL || queue->tail->next == NULL)
+        return NULL;
     
-    return (void *)queue->tail->next->data;
+    return (void *) queue->tail->next->data;
 }
 
-long queueCount(Queue * queue) {
-    assert(queue != NULL);
+long
+queue_size (queue *queue) {
+    assert (queue != NULL);
     
-    if (queue->tail == NULL) return 0;
+    if (queue->tail == NULL)
+        return 0;
     
     return queue->count;
 }
 
-int emptyQueue(Queue * queue) {
-    assert(queue != NULL);
+int
+queue_empty(queue *queue) {
+    assert (queue != NULL);
+    
     return queue->count == 0;
 }
 
-void removeAllQueue(Queue * queue) {
-    assert(queue != NULL);
+void
+queue_release (queue **queue) {
+    assert (queue != NULL);
+    assert ((*queue) != NULL);
     
-    while (queue->tail != NULL) {
-        dequeue(queue);
+    while ((*queue)->tail != NULL) {
+        queue_pop (*queue);
     }
+    
+    free (*queue);
+    *queue = NULL;
 }

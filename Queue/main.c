@@ -24,32 +24,30 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "Queue.h"
+#include "queue.h"
 
 int main() {
     
-    Queue * cola = createQueue();
+//    queue *cola = queue_init (NULL);
+    queue *cola = queue_init (free);
     
     int * data;
     
     int i;
     
-    for (i = 1; i <= 6; i++) {
+    for (i = 1; i < 10; i++) {
         data = (int *)malloc(sizeof(int));
         *data = i;
-        enqueue(cola, data);
+        queue_push (cola, data);
     }
     
-    
-    while (queueCount(cola) != 0) {
-        data = front(cola);
-        printf("%d\n", *data);
-        free(dequeue(cola));
+    while (queue_empty (cola) == 0) {
+        data = queue_front (cola);
+        printf ("%d\n", *data);
+        queue_pop (cola);
     }
     
-    removeAllQueue(cola);
-    
-    free(cola);
-    
+    queue_release (&cola);
+        
     return 0;
 }

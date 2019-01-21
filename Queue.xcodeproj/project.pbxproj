@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D429F0DE212A54DA00651357 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D429F0DD212A54DA00651357 /* main.c */; };
-		D429F0E6212A550200651357 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = D429F0E5212A550200651357 /* Queue.c */; };
+		D4D7848721F671E4003B9FEA /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = D4D7848521F671E4003B9FEA /* queue.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +26,8 @@
 /* Begin PBXFileReference section */
 		D429F0DA212A54D900651357 /* Queue */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Queue; sourceTree = BUILT_PRODUCTS_DIR; };
 		D429F0DD212A54DA00651357 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		D429F0E4212A550200651357 /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
-		D429F0E5212A550200651357 /* Queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Queue.c; sourceTree = "<group>"; };
+		D4D7848521F671E4003B9FEA /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = queue.c; sourceTree = "<group>"; };
+		D4D7848621F671E4003B9FEA /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				D429F0DD212A54DA00651357 /* main.c */,
-				D429F0E5212A550200651357 /* Queue.c */,
-				D429F0E4212A550200651357 /* Queue.h */,
+				D4D7848621F671E4003B9FEA /* queue.h */,
+				D4D7848521F671E4003B9FEA /* queue.c */,
 			);
 			path = Queue;
 			sourceTree = "<group>";
@@ -124,7 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D429F0DE212A54DA00651357 /* main.c in Sources */,
-				D429F0E6212A550200651357 /* Queue.c in Sources */,
+				D4D7848721F671E4003B9FEA /* queue.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
