@@ -53,7 +53,10 @@ extern queue *queue_init (queue_release_object_callback release);
 extern void queue_push (queue *queue, const void *data);
 
 /**
- Elimina un elemento de la Queue, sin liberar la memoria del puntero guardado.
+ Elimina el primer elemento de la cola, si la funcion
+ release esta activa, esta eliminara de la memoria
+ el puntero al dato guardado y retornara NULL,
+ en caso contrario retornara el puntero al dato.
  
  Complejidad: O(1)
 
@@ -93,7 +96,8 @@ extern long queue_size (queue *queue);
 extern int queue_empty (queue *queue);
 
 /**
- Elimina todo los elementos de la Queue, pero no los libera de la memoria.
+ Elimina todo los elementos de la cola, si se encuetra la funcion release
+ activa, eliminara los datos guardados de la memoria.
  
  Complejidad: O(n)
  
